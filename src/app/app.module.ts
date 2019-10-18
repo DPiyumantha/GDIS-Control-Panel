@@ -13,6 +13,8 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AddLecturerComponent } from './add-lecturer/add-lecturer.component';
 
+import { CommonModule} from '@angular/common';
+
 import { AngularFireModule } from "@angular/fire";
 import { AngularFirestoreModule } from "@angular/fire/firestore";
 import { environment } from 'src/environments/environment';
@@ -21,6 +23,13 @@ import { LecturerComponent } from './lecturers/lecturer/lecturer.component';
 import { LecturerListComponent } from './lecturers/lecturer-list/lecturer-list.component';
 import { LecturersService } from './shared/lecturers.service';
 import { FormsModule } from "@angular/forms";
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+ 
+import { ToastrModule } from 'ngx-toastr';
+import { NoticesService } from './shared/notices.service';
+import { NoticeComponent } from './noticeboard-control/notice/notice.component';
+import { NoticesListComponent } from './noticeboard-control/notices-list/notices-list.component';
 
 @NgModule({
   declarations: [
@@ -37,16 +46,24 @@ import { FormsModule } from "@angular/forms";
     LecturersComponent,
     LecturerComponent,
     LecturerListComponent,
+    NoticeComponent,
+    NoticesListComponent,
     
   ],
   imports: [
+    CommonModule,
+    ToastrModule.forRoot(),
+    BrowserAnimationsModule,
     BrowserModule,
     FormsModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+  
+
   ],
-  providers: [LecturersService],
+  providers: [LecturersService,
+  NoticesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

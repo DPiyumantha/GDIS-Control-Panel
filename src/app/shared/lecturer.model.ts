@@ -1,9 +1,9 @@
 export class Lecturer {
     id : string;
     salutation: string;
-    name: string;
+    fullName: string;
     position: string;
     qualifications: string;
-    email: string;
+    emailA: string;
     imgurl: string;
 }

@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Lecturer } from './lecturer.model';
+import { Notice } from './notice';
 import { AngularFirestore } from '@angular/fire/firestore';
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class LecturersService {
-  formData: Lecturer;
-
+export class NoticesService {
+notice : Notice;
   constructor(private firestore: AngularFirestore) { }
 
-  getLecturers(){
-    return this.firestore.collection('lecturers').snapshotChanges();
+  getNotices(){
+    return this.firestore.collection('notices').snapshotChanges();
   }
 }

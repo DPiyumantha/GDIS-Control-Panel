@@ -1,1 +1,22 @@
-<p>lecturer-list works!</p>
+<table class="table table-hover">
+    <thead>
+
+        <th>Name</th>
+        <th>Position</th>
+        <th>Qualifications</th>
+        <th>e-mail</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let lec of list">
+            <td> {{ lec.salutation }} {{ lec.fullName }} </td>
+            <td> {{ lec.position }}</td>
+            <td> {{ lec.qualifications }} </td>
+            <td> {{ lec.emailA }} </td>
+            <td>
+                <a (click)="onEdit(lec)" class="btn "> <i class="fas fa-edit"></i> </a>
+                <a href="" class="btn text-danger" (click)="onDelete(lec.id)"> <i class="fa fa-trash"></i> </a>
+            </td>
+        </tr>
+    </tbody>
+</table>

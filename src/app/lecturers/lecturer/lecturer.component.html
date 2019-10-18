@@ -1,11 +1,13 @@
 <h4 class="display-4">Lecturer Details</h4>
 <form #form="ngForm" autocomplete="off" (submit)="onSubmit(form)">
     <div class="form-row">
+
         <div class="form-group col-md-2">
+            <input type="hidden" name="id" #id="ngModel" [(ngModel)]="service.formData.id" class="form-control">
             <input name="salutation" #salutation="ngModel" [(ngModel)]="service.formData.salutation" class="form-control" placeholder="Salutation" required>
         </div>
         <div class="form-group col-md-10">
-            <input name="fullName" #fullName="ngModel" [(ngModel)]="service.formData.name" class="form-control" placeholder="Name" required>
+            <input name="fullName" #fullName="ngModel" [(ngModel)]="service.formData.fullName" class="form-control" placeholder="Name" required>
         </div>
     </div>
 
@@ -16,13 +18,17 @@
         <input name="qualifications" #qualifications="ngModel" [(ngModel)]="service.formData.qualifications" class="form-control" placeholder="Qualifications" required>
     </div>
     <div class="form-group">
-        <input type="email" name="emailA" #emailA="ngModel" [(ngModel)]="service.formData.email" class="form-control" placeholder="e-mail" required>
+        <input type="email" name="emailA" #emailA="ngModel" [(ngModel)]="service.formData.emailA" class="form-control" placeholder="e-mail" required>
     </div>
     <div class="form-group">
         <input name="imgurl" #imgurl="ngModel" [(ngModel)]="service.formData.imgurl" class="form-control" placeholder="imgurl" required>
     </div>
+    <p style="color: red;" *ngIf="form.invalid && form.touched"> *All the fields are required </p>
     <div class="form-group">
         <button type="submit" [disabled]="form.invalid" class="btn btn-block btn-primary">Submit</button>
     </div>
+    <!-- <div class="form-group">
+        <button type="" [disabled]="!form.touched" onclick="resetForm()" class="btn btn-block btn-primary">Reset</button>
+    </div> -->
 
 </form>
