@@ -1,1 +1,19 @@
-<p>notices-list works!</p>
+<table class="table table-hover">
+    <thead>
+
+        <th>Notice</th>
+
+        <th></th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let lec of list">
+            <td> {{ lec.message }}</td>
+
+            <td>
+                <a (click)="onEdit(lec)" class="btn "> <i class="fas fa-edit"></i> </a>
+
+                <a class="btn text-danger" (click)="onDelete(lec.id)"> <i class="fa fa-trash"></i> </a>
+            </td>
+        </tr>
+    </tbody>
+</table>

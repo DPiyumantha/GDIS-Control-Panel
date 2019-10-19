@@ -3,6 +3,7 @@ import { NoticesService } from 'src/app/shared/notices.service';
 import { Notice } from 'src/app/shared/notice';
 import { NgForm } from '@angular/forms';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-notice',
@@ -11,7 +12,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class NoticeComponent implements OnInit {
 
-  constructor(private service: NoticesService, private firestore: AngularFirestore) { }
+  constructor(private service: NoticesService, private firestore: AngularFirestore, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.resetForm();
@@ -30,6 +31,7 @@ export class NoticeComponent implements OnInit {
     let data = form.value;
     this.firestore.collection('notices').add(data);
     this.resetForm(form);
+    this.toastr.success("Notice added!", "GDIS Control Panel");
   }
 
 }
