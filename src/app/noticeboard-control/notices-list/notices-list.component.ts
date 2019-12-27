@@ -25,6 +25,16 @@ export class NoticesListComponent implements OnInit {
     });
   }
 
+  onEdit(lec: Notice){
+    this.service.notice = Object.assign({},lec);
+  }
+
+  onDelete(id: string){
+    if(confirm("Are you sure?")){
+      this.firestore.doc('notices/'+id).delete();
+    }
+  }
+
   
 
 }

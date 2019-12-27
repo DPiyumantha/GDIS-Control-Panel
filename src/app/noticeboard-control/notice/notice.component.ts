@@ -28,8 +28,12 @@ export class NoticeComponent implements OnInit {
   }
 
   onSubmit(form: NgForm){
-    let data = form.value;
+    let data = Object.assign({},form.value);
+    delete data.id;
+    if(form.value.id==null)
     this.firestore.collection('notices').add(data);
+    else
+    this.firestore.doc('notices/'+form.value.id).update(data);
     this.resetForm(form);
     this.toastr.success("Notice added!", "GDIS Control Panel");
   }

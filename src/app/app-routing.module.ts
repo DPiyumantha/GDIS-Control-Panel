@@ -16,7 +16,8 @@ const routes: Routes = [
       },
       {
         path:'notices',
-        component:NoticeboardControlComponent
+        component:NoticeboardControlComponent,
+        
       }
     ]
   }

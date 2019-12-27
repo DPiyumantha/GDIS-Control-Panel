@@ -30,6 +30,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { NoticesService } from './shared/notices.service';
 import { NoticeComponent } from './noticeboard-control/notice/notice.component';
 import { NoticesListComponent } from './noticeboard-control/notices-list/notices-list.component';
+import { AngularFireStorage } from '@angular/fire/storage';
 
 @NgModule({
   declarations: [
@@ -59,11 +60,12 @@ import { NoticesListComponent } from './noticeboard-control/notices-list/notices
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
+    // AngularFireStorage,
   
 
   ],
   providers: [LecturersService,
-  NoticesService],
+  NoticesService, AngularFireStorage],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

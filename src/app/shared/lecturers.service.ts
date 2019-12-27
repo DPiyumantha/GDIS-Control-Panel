@@ -10,7 +10,7 @@ export class LecturersService {
 
   constructor(private firestore: AngularFirestore) { }
 
-  getLecturers(){
+  getLecturers() {
     return this.firestore.collection('lecturers').snapshotChanges();
   }
 }
