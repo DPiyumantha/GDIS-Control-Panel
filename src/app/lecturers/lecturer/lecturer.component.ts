@@ -5,6 +5,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { ToastrService } from 'ngx-toastr';
 import { AngularFireStorage } from '@angular/fire/storage';
 import * as firebase from 'firebase';
+import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 
 @Component({
@@ -19,6 +21,9 @@ export class LecturerComponent implements OnInit {
   task = null;
   dwnUrl = null;
   task1 = null;
+  formevent1;
+  uploadPercent: Observable<number>;
+  downloadURL: Observable<string>;
   constructor(private storage: AngularFireStorage, public service: LecturersService, private firestore: AngularFirestore, private toastr: ToastrService) {
     this.ref = firebase.storage().ref();
   }
@@ -39,7 +44,8 @@ export class LecturerComponent implements OnInit {
         qualifications: '',
         emailA: '',
         imgurl: '',
-        resArea: ''
+        resArea: '',
+        fileurl:''
       };
     
   }
@@ -55,24 +61,15 @@ export class LecturerComponent implements OnInit {
 
     let data = Object.assign({}, form.value);
     delete data.id;
-    const filepath = 'lecturer-list/' + data.fullName;
-    // let dwnUrl = null;
+    
+    const filePath = 'lecturer-images/' + data.name;
+    const fileRef = this.storage.ref(filePath);
+    const task = this.storage.upload(filePath, this.selectedFile);
+    
+    await this.task;
 
-    // this.storage.ref("lecturer-list"+this.selectedFile.name).put(this.selectedFile);
-    // const id = Math.random().toString(36).substring(2);
-    // this.ref = this.storage.ref(id);
-    // this.task = this.ref.put(this.selectedFile);
-    // this.task = this.storage.upload(filepath, this.selectedFile).then(rst => {
-    //   rst.ref.getDownloadURL().then(url => {
-    //     console.log(data.imgurl);
-    //     data.imgurl = url;
-    //     console.log(data.imgurl);
-
-    //   });
-    // });
-    // await this.task;
-    // await this.task1;
-    // data.imgurl = this.dwnUrl;
+    
+    
     if (form.value.position.toLowerCase().indexOf('head of the department') > -1) {
       // String B contains String A
       data.order = 0;
@@ -83,9 +80,23 @@ export class LecturerComponent implements OnInit {
     } else {
       data.order = 9;
     }
+
+    
     if (form.value.id == null) {
       // this.firestore
       this.firestore.collection('lecturers').add(data);
+
+      this.uploadPercent = task.percentageChanges();
+    task.snapshotChanges().pipe(
+      finalize(() => {
+        fileRef.getDownloadURL().subscribe(url => {
+          // console.log(url); // <-- do what ever you want with the url..
+          data.imgurl = url;
+          this.firestore.collection('timetabledata').add(data);
+        });
+      })
+    ).subscribe();
+
     } else {
       this.firestore.doc('lecturers/' + form.value.id).update(data);
     }
@@ -94,6 +105,15 @@ export class LecturerComponent implements OnInit {
 
 
     this.toastr.success('Lecturer saved successfully!', 'Lecturer Details');
+
+
+  }
+
+  uploadImage(event) {
+    this.selectedFile = event.target.files[0];
+    // console.log("sfwg");
+    this.formevent1 = event;
+    
 
 
   }

@@ -24,8 +24,11 @@
         <input type="email" name="emailA" #emailA="ngModel" [(ngModel)]="service.formData.emailA" class="form-control" placeholder="e-mail" required>
     </div>
     <div class="form-group">
-        <input name="imgurl" type="text" #imgurl="ngModel" [(ngModel)]="service.formData.imgurl" class="form-control" placeholder="imgurl">
+        <input name="imgurl" type="text" #imgurl="ngModel" [(ngModel)]="service.formData.imgurl" class="form-control" placeholder="imgurl" hidden>
     </div>
+    <input type="file" (change)="uploadFile($event)" class="form-group" name="fileurl">
+
+
     <!-- <div class="input-group mb-3">///////////////////////////////////////////  photo input
         <div class="input-group-prepend">
             <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>

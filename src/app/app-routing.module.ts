@@ -1,3 +1,5 @@
+import { TimetableControlComponent } from './timetable-control/timetable-control.component';
+import { TimetableComponent } from './timetable-control/timetable/timetable.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
@@ -17,6 +19,11 @@ const routes: Routes = [
       {
         path:'notices',
         component:NoticeboardControlComponent,
+        
+      },
+      {
+        path:'timetable',
+        component:TimetableControlComponent,
         
       }
     ]

@@ -31,6 +31,8 @@ import { NoticesService } from './shared/notices.service';
 import { NoticeComponent } from './noticeboard-control/notice/notice.component';
 import { NoticesListComponent } from './noticeboard-control/notices-list/notices-list.component';
 import { AngularFireStorage } from '@angular/fire/storage';
+import { TimetableComponent } from './timetable-control/timetable/timetable.component';
+import { TimetableListComponent } from './timetable-control/timetable-list/timetable-list.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,8 @@ import { AngularFireStorage } from '@angular/fire/storage';
     LecturerListComponent,
     NoticeComponent,
     NoticesListComponent,
+    TimetableComponent,
+    TimetableListComponent,
     
   ],
   imports: [

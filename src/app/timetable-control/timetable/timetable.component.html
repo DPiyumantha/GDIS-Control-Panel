@@ -1,0 +1,22 @@
+<h4 class="display-4">
+    Timetables</h4>
+<form #form="ngForm" autocomplete="off" (submit)="onSubmit(form)">
+    <div class="form-group">
+        <input type="text" name="title" id="title" #title="ngModel" [(ngModel)]="service.timetable.title" class="form-control" placeholder="Title" required>
+    </div>
+    <div class="form-group">
+        <input hidden type="text" name="id" id="id" #id="ngModel" [(ngModel)]="service.timetable.id">
+    </div>
+    <div class="form-group">
+        <input hidden type="text" name="imgurl" id="imgurl" #imgurl="ngModel" [(ngModel)]="service.timetable.imgurl" class="form-control">
+    </div>
+    <div class="form-group">
+        <input type="file" name="timetable" id="timetable" (change)="uploadImage($event)" class="form-control">
+    </div>
+    <div>
+        <!-- <img [src]="imageurl || " alt=""> -->
+    </div>
+    <button type="submit" [disabled]="form.invalid && !hasSelected">Submit</button>
+
+</form>
+<img [src]="service.timetable.imgurl" alt="">
