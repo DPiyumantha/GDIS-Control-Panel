@@ -16,7 +16,8 @@
     <div>
         <!-- <img [src]="imageurl || " alt=""> -->
     </div>
-    <button type="submit" [disabled]="form.invalid && !hasSelected">Submit</button>
+    <button type="submit" [disabled]="form.invalid && !hasSelected">Submit</button> <label for="" [hidden]=!uploading> {{ percentage }} /100</label>
 
 </form>
-<img [src]="service.timetable.imgurl" alt="">
+<br><br>
+<img [src]="service.timetable.imgurl" alt="" style="max-width: 20vh;">

@@ -1,3 +1,5 @@
+import { VideosControlComponent } from './videos-control/videos-control.component';
+import { VideoComponent } from './videos-control/video/video.component';
 import { TimetableControlComponent } from './timetable-control/timetable-control.component';
 import { TimetableComponent } from './timetable-control/timetable/timetable.component';
 import { NgModule } from '@angular/core';
@@ -24,6 +26,11 @@ const routes: Routes = [
       {
         path:'timetable',
         component:TimetableControlComponent,
+        
+      },
+      {
+        path:'tour',
+        component:VideosControlComponent,
         
       }
     ]

@@ -8,5 +8,5 @@ export class Lecturer {
     emailA: string;
     imgurl: string;
     resArea: string;
-    fileurl : string;
+    // fileurl : string;
 }

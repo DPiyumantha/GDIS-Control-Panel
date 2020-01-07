@@ -35,12 +35,12 @@ export class TimetableListComponent implements OnInit {
 
 
 
-  async onDelete(id: string,title:string) {
+  async onDelete(id: string, title: string) {
     if (confirm('Are you sure?')) {
-AngularFireStorage
+      AngularFireStorage
       let deletion = this.firestore.doc('timetabledata/' + id).delete();
-      let filepath = "timetables/"+title;
-      let filedeletion =this.storage.ref(filepath).delete();
+      let filepath = "timetables/" + title;
+      let filedeletion = this.storage.ref(filepath).delete();
       await deletion;
       await filedeletion;
       this.toastr.warning("Deleted successfully");

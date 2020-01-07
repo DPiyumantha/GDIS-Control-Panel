@@ -1,0 +1,22 @@
+<h4 class="display-4">
+    Videos</h4>
+<form #form="ngForm" autocomplete="off" (submit)="onSubmit(form)">
+    <div class="form-group">
+        <input type="text" name="title" id="title" #title="ngModel" [(ngModel)]="service.video.title" class="form-control" placeholder="Title" required>
+    </div>
+    <div class="form-group">
+        <input hidden type="text" name="id" id="id" #id="ngModel" [(ngModel)]="service.video.id">
+    </div>
+    <div class="form-group">
+        <input hidden type="text" name="vdourl" id="vdourl" #vdourl="ngModel" [(ngModel)]="service.video.vdourl" class="form-control">
+    </div>
+    <div class="form-group">
+        <input type="file" name="video" id="video" (change)="uploadVideo($event)" class="form-control">
+    </div>
+    <div>
+        <!-- <img [src]="imageurl || " alt=""> -->
+    </div>
+    <button type="submit" [disabled]="form.invalid && !hasSelected">Submit</button> <label for="" [hidden]=!uploading> {{ percentage }} /100</label>
+
+</form>
+<br><br>

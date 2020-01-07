@@ -1,6 +1,6 @@
 <table class="table table-hover">
     <thead>
-
+        <th>Picture</th>
         <th>Name</th>
         <th>Position</th>
         <th>Qualifications</th>
@@ -10,6 +10,7 @@
     </thead>
     <tbody>
         <tr *ngFor="let lec of list">
+            <td><img src='{{ lec.imgurl }}' alt=" " style="max-width: 50%; max-height: 50%;"> </td>
             <td> {{ lec.salutation }} {{ lec.fullName }} </td>
             <td> {{ lec.position }}</td>
             <td> {{ lec.qualifications }} </td>
@@ -17,7 +18,7 @@
             <td> {{ lec.emailA }} </td>
             <td>
                 <a (click)="onEdit(lec)" class="btn "> <i class="fas fa-edit"></i> </a>
-                <a class="btn text-danger" (click)="onDelete(lec.id)"> <i class="fa fa-trash"></i> </a>
+                <a class="btn text-danger" (click)="onDelete(lec.id, lec.fullName)"> <i class="fa fa-trash"></i> </a>
             </td>
         </tr>
     </tbody>

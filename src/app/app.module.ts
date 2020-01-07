@@ -33,6 +33,9 @@ import { NoticesListComponent } from './noticeboard-control/notices-list/notices
 import { AngularFireStorage } from '@angular/fire/storage';
 import { TimetableComponent } from './timetable-control/timetable/timetable.component';
 import { TimetableListComponent } from './timetable-control/timetable-list/timetable-list.component';
+import { VideosControlComponent } from './videos-control/videos-control.component';
+import { VideoComponent } from './videos-control/video/video.component';
+import { VideoListComponent } from './videos-control/video-list/video-list.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +56,9 @@ import { TimetableListComponent } from './timetable-control/timetable-list/timet
     NoticesListComponent,
     TimetableComponent,
     TimetableListComponent,
+    VideosControlComponent,
+    VideoComponent,
+    VideoListComponent,
     
   ],
   imports: [

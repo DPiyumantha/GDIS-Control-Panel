@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LecturersService } from 'src/app/shared/lecturers.service';
-import { NgForm } from '@angular/forms';
+import { NgForm, Form } from '@angular/forms';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ToastrService } from 'ngx-toastr';
 import { AngularFireStorage } from '@angular/fire/storage';
@@ -24,32 +24,35 @@ export class LecturerComponent implements OnInit {
   formevent1;
   uploadPercent: Observable<number>;
   downloadURL: Observable<string>;
+  isSelecting: boolean ;
   constructor(private storage: AngularFireStorage, public service: LecturersService, private firestore: AngularFirestore, private toastr: ToastrService) {
     this.ref = firebase.storage().ref();
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.resetForm();
   }
 
-  resetForm(form?: NgForm){
+  resetForm(form?: NgForm) {
     if (form != null) {
-      form.resetForm();}
-      this.service.formData = {
-        id: null,
-        order: null,
-        salutation: '',
-        fullName: '',
-        position: '',
-        qualifications: '',
-        emailA: '',
-        imgurl: '',
-        resArea: '',
-        fileurl:''
-      };
+      form.resetForm();
+    }
+    this.service.formData = {
+      id: null,
+      order: null,
+      salutation: '',
+      fullName: '',
+      position: '',
+      qualifications: '',
+      emailA: '',
+      imgurl: '',
+      resArea: ''
+    };
     
+    
+
   }
-  
+
   uploadFile(event) {
     this.selectedFile = event.target.files[0];
     // const filePath = '/lecturer-list';
@@ -58,18 +61,17 @@ export class LecturerComponent implements OnInit {
 
   }
   async onSubmit(form: NgForm) {
-
+    
+    console.log(form.value.id);
     let data = Object.assign({}, form.value);
     delete data.id;
-    
-    const filePath = 'lecturer-images/' + data.name;
-    const fileRef = this.storage.ref(filePath);
-    const task = this.storage.upload(filePath, this.selectedFile);
-    
-    await this.task;
 
-    
-    
+    const filePath = 'lecturer-images/' + data.fullName;
+    const fileRef = this.storage.ref(filePath);
+
+
+
+
     if (form.value.position.toLowerCase().indexOf('head of the department') > -1) {
       // String B contains String A
       data.order = 0;
@@ -81,39 +83,97 @@ export class LecturerComponent implements OnInit {
       data.order = 9;
     }
 
-    
+
     if (form.value.id == null) {
+      const task = this.storage.upload(filePath, this.selectedFile);
+
+      await this.task;
       // this.firestore
-      this.firestore.collection('lecturers').add(data);
+      // this.firestore.collection('lecturers').add(data); 
 
       this.uploadPercent = task.percentageChanges();
-    task.snapshotChanges().pipe(
-      finalize(() => {
-        fileRef.getDownloadURL().subscribe(url => {
-          // console.log(url); // <-- do what ever you want with the url..
-          data.imgurl = url;
-          this.firestore.collection('timetabledata').add(data);
-        });
-      })
-    ).subscribe();
+      this.uploadPercent.subscribe(prcnt => {
+        console.log(prcnt);
+      });
+      task.snapshotChanges().pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe(url => {
+
+            data.imgurl = url;
+            this.firestore.collection('lecturers').add(data);
+          });
+        })
+      ).subscribe();
+
+      this.toastr.success('Lecturer saved successfully!', 'Lecturer Details');
 
     } else {
-      this.firestore.doc('lecturers/' + form.value.id).update(data);
+      ////////////// when editing image
+      
+      if (this.selectedFile!=null) {
+        let imageid = form.value.id;
+        console.log(form.value.fullName);
+
+        let deletionfile = this.firestore.doc('lecturer-images/' + form.value.fullName).delete();
+        let filepath = "lecturer-images/" + form.value.fullName;
+        let filedeletion = this.storage.ref(filepath).delete();
+        await deletionfile;
+        await filedeletion;
+        
+        const filePath = 'lecturer-images/' + data.fullName;
+    const fileRef = this.storage.ref(filePath);
+        const task = this.storage.upload(filePath, this.selectedFile);
+        
+
+        await this.task;
+        // this.firestore
+        // this.firestore.collection('lecturers').add(data); 
+
+        this.uploadPercent = task.percentageChanges();
+        this.uploadPercent.subscribe(prcnt => {
+          console.log(prcnt);
+        });
+
+        task.snapshotChanges().pipe(
+          finalize(() => {
+            fileRef.getDownloadURL().subscribe(url => {
+              
+              
+              data.imgurl = url;
+              // data.fullName="ssssssssssss";
+              // this.firestore.collection('lecturers').add(data);
+              this.firestore.doc('lecturers/' + imageid).update(data);
+              
+            });
+          })
+        ).subscribe();
+        
+      }else{
+        this.firestore.doc('lecturers/' + form.value.id).update(data);
+      }
+      ///////////////////
+
+
+      
     }
     this.resetForm(form);
+  
+    form.reset;
+    form.value.fileurl ="";
 
 
 
-    this.toastr.success('Lecturer saved successfully!', 'Lecturer Details');
+
 
 
   }
 
   uploadImage(event) {
     this.selectedFile = event.target.files[0];
-    // console.log("sfwg");
     this.formevent1 = event;
     
+    
+
 
 
   }

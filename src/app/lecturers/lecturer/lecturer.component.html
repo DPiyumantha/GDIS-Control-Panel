@@ -26,7 +26,10 @@
     <div class="form-group">
         <input name="imgurl" type="text" #imgurl="ngModel" [(ngModel)]="service.formData.imgurl" class="form-control" placeholder="imgurl" hidden>
     </div>
-    <input type="file" (change)="uploadFile($event)" class="form-group" name="fileurl">
+    <div class="form-group">
+        <input type="file" (change)="uploadFile($event)" class="form-group" name="fileurl" placeholder="Picture" class="form-control" id="fileurl">
+
+    </div>
 
 
     <!-- <div class="input-group mb-3">///////////////////////////////////////////  photo input
@@ -46,5 +49,11 @@
     <!-- <div class="form-group">
         <button type="" [disabled]="!form.touched" onclick="resetForm()" class="btn btn-block btn-primary">Reset</button>
     </div> -->
+
+    <!-- <script>
+        if (this.document.getElementById("fileurl").value != "") {
+
+        }
+    </script> -->
 
 </form>
