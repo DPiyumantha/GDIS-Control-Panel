@@ -1,3 +1,4 @@
+import { Lecturer } from './../../shared/lecturer.model';
 import { Component, OnInit } from '@angular/core';
 import { LecturersService } from 'src/app/shared/lecturers.service';
 import { NgForm, Form } from '@angular/forms';
@@ -25,12 +26,23 @@ export class LecturerComponent implements OnInit {
   uploadPercent: Observable<number>;
   downloadURL: Observable<string>;
   isSelecting: boolean ;
+  list: Lecturer[];
   constructor(private storage: AngularFireStorage, public service: LecturersService, private firestore: AngularFirestore, private toastr: ToastrService) {
     this.ref = firebase.storage().ref();
   }
 
   ngOnInit() {
     this.resetForm();
+
+    
+    this.service.getLecturers().subscribe(actionArray => (
+      this.list = actionArray.map(item => {
+        return {
+          id: item.payload.doc.id,
+          ...item.payload.doc.data() as Lecturer
+        };
+      })
+    ));
   }
 
   resetForm(form?: NgForm) {
@@ -85,27 +97,31 @@ export class LecturerComponent implements OnInit {
 
 
     if (form.value.id == null) {
-      const task = this.storage.upload(filePath, this.selectedFile);
+      if(!this.isExisting(this.list, form.value.emailA)){
+        const task = this.storage.upload(filePath, this.selectedFile);
 
-      await this.task;
-      // this.firestore
-      // this.firestore.collection('lecturers').add(data); 
-
-      this.uploadPercent = task.percentageChanges();
-      this.uploadPercent.subscribe(prcnt => {
-        console.log(prcnt);
-      });
-      task.snapshotChanges().pipe(
-        finalize(() => {
-          fileRef.getDownloadURL().subscribe(url => {
-
-            data.imgurl = url;
-            this.firestore.collection('lecturers').add(data);
-          });
-        })
-      ).subscribe();
-
-      this.toastr.success('Lecturer saved successfully!', 'Lecturer Details');
+        await this.task;
+        // this.firestore
+        // this.firestore.collection('lecturers').add(data); 
+  
+        this.uploadPercent = task.percentageChanges();
+        this.uploadPercent.subscribe(prcnt => {
+          console.log(prcnt);
+        });
+        task.snapshotChanges().pipe(
+          finalize(() => {
+            fileRef.getDownloadURL().subscribe(url => {
+  
+              data.imgurl = url;
+              this.firestore.collection('lecturers').add(data);
+            });
+          })
+        ).subscribe();
+  
+        this.toastr.success('Lecturer saved successfully!', 'Lecturer Details');
+      }else{
+        this.toastr.warning('Lecturer already exists!', 'Lecturer Details');
+      }
 
     } else {
       ////////////// when editing image
@@ -176,6 +192,17 @@ export class LecturerComponent implements OnInit {
 
 
 
+  }
+
+  isExisting(list:Lecturer[], mail : string):boolean{
+    
+    for(let item of list){
+      if(item.emailA ==mail){
+        return true;
+      }
+    }
+    
+    return false;
   }
 
 
