@@ -36,6 +36,9 @@ import { TimetableListComponent } from './timetable-control/timetable-list/timet
 import { VideosControlComponent } from './videos-control/videos-control.component';
 import { VideoComponent } from './videos-control/video/video.component';
 import { VideoListComponent } from './videos-control/video-list/video-list.component';
+import { PosterControlComponent } from './poster-control/poster-control.component';
+import { PosterComponent } from './poster-control/poster/poster.component';
+import { PosterListComponent } from './poster-control/poster-list/poster-list.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +62,9 @@ import { VideoListComponent } from './videos-control/video-list/video-list.compo
     VideosControlComponent,
     VideoComponent,
     VideoListComponent,
+    PosterControlComponent,
+    PosterComponent,
+    PosterListComponent,
     
   ],
   imports: [

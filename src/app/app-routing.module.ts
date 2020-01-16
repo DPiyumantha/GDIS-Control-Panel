@@ -1,3 +1,4 @@
+import { PosterControlComponent } from './poster-control/poster-control.component';
 import { VideosControlComponent } from './videos-control/videos-control.component';
 import { VideoComponent } from './videos-control/video/video.component';
 import { TimetableControlComponent } from './timetable-control/timetable-control.component';
@@ -31,6 +32,11 @@ const routes: Routes = [
       {
         path:'tour',
         component:VideosControlComponent,
+        
+      },
+      {
+        path:'poster',
+        component:PosterControlComponent,
         
       }
     ]

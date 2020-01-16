@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class NoticeComponent implements OnInit {
 
-  constructor(private service: NoticesService, private firestore: AngularFirestore, private toastr: ToastrService) { }
+  constructor(public service: NoticesService, private firestore: AngularFirestore, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.resetForm();

@@ -1,0 +1,21 @@
+<table class="table table-hover">
+    <thead>
+
+        <th>Poster</th>
+
+
+        <th></th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let tt of list">
+            <td>
+                <img src='{{ tt.posurl }}' alt=" " style="max-width: 50%; max-height: 50%;"> </td>
+
+
+            <td>
+                <!-- <a (click)="onEdit(tt) " class="btn "> <i class="fas fa-edit "></i> </a> -->
+                <a class="btn text-danger " (click)="onDelete(tt.id) "> <i class="fa fa-trash "></i> </a>
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -1,18 +1,17 @@
-import { TimetableService } from './../../shared/timetable.service';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { PosterService } from './../../shared/poster.service';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-timetable',
-  templateUrl: './timetable.component.html',
-  styleUrls: ['./timetable.component.css']
+  selector: 'app-poster',
+  templateUrl: './poster.component.html',
+  styleUrls: ['./poster.component.css']
 })
-export class TimetableComponent implements OnInit {
-
+export class PosterComponent implements OnInit {
   selectedFile = null;
   uploadPercent: Observable<number>;
   downloadURL: Observable<string>;
@@ -22,9 +21,7 @@ export class TimetableComponent implements OnInit {
   downloadURL1: Observable<string>;
   percentage :number =0;
   uploading:boolean=false;
-
-  constructor(private storage: AngularFireStorage, private firebase: AngularFirestore, public service: TimetableService) { }
-
+  constructor(private storage: AngularFireStorage, private firebase: AngularFirestore, public service: PosterService) { }
   ngOnInit() {
     this.resetForm();
 
@@ -33,21 +30,20 @@ export class TimetableComponent implements OnInit {
   resetForm(form?: NgForm) {
     if (form != null)
       form.resetForm();
-    this.service.timetable = {
+    this.service.poster = {
       id: null,
-      title: "",
-      imgurl: ""
+      
+      posurl: ""
     };
   }
 
   async onSubmit(form: NgForm) {
-    // console.log(form.value.id);
-    // console.log(form.value.title);
-    console.log(form.value.imgurl);
-    let dataa = Object.assign({}, form.value);// id, imgurl, title
-    delete dataa.id;
 
-    const filePath = "timetables/" + dataa.title;
+    console.log(form.value.posurl);
+    let dataa = Object.assign({}, form.value);// id, posurl
+    delete dataa.id;
+    let r = Math.random().toString(36).substring(7);
+    const filePath = "posters/" + r;
     const fileRef = this.storage.ref(filePath);
 
     console.log(form.value.id);
@@ -57,8 +53,8 @@ export class TimetableComponent implements OnInit {
       this.uploading =true;
       
       // observe percentage changes
-      this.uploadPercent1 = task.percentageChanges();
-      this.uploadPercent1.subscribe(prcnt => {
+      this.uploadPercent = task.percentageChanges();
+      this.uploadPercent.subscribe(prcnt => {
         this.percentage=prcnt;
       });
 
@@ -66,44 +62,38 @@ export class TimetableComponent implements OnInit {
         finalize(() => {
           fileRef.getDownloadURL().subscribe(url => {
             
-            dataa.imgurl = url;
-            this.firebase.collection('timetabledata').add(dataa);
+            dataa.posurl = url;
+            this.firebase.collection('posters').add(dataa);
           });
         })
       ).subscribe();
       this.resetForm();
-      // form.reset();
-      
 
-      // dataa.imgurl = "fg";
-      // console.log(fileRef.getDownloadURL());
-      // this.firebase.collection('timetabledata').add(dataa);
 
     } else {
 
       if (this.selectedFile != null) {
         
         let imageid = form.value.id;
-        console.log(form.value.title);
+        
 
-        let deletionfile = this.firebase.doc('timetables/' + form.value.title).delete();
-        let filepath = "timetables/" + form.value.title;
+        let deletionfile = this.firebase.doc('posters/' + form.value.id).delete();
+        let filepath = "posters/" + form.value.id;
         let filedeletion = this.storage.ref(filepath).delete();
         await deletionfile;
         await filedeletion;
 
-        const filePath = 'timetables/' + dataa.title;
+        const filePath = 'posters/' + dataa.id;
         const fileRef = this.storage.ref(filePath);
         const task = this.storage.upload(filePath, this.selectedFile);
         this.uploading =true;
 
 
         await task;
-        // this.firestore
-        // this.firestore.collection('lecturers').add(data); 
 
-        this.uploadPercent1 = task.percentageChanges();
-        this.uploadPercent1.subscribe(prcnt => {
+
+        this.uploadPercent = task.percentageChanges();
+        this.uploadPercent.subscribe(prcnt => {
           this.percentage=prcnt;
         });
 
@@ -112,16 +102,16 @@ export class TimetableComponent implements OnInit {
             fileRef.getDownloadURL().subscribe(url => {
 
 
-              dataa.imgurl = url;
+              dataa.posurl = url;
 
-              this.firebase.doc('timetabledata/' + imageid).update(dataa);
+              this.firebase.doc('posters/' + imageid).update(dataa);
 
             });
           })
         ).subscribe();
 
       } else {
-        this.firebase.doc('timetabledata/' + form.value.id).update(dataa);
+        this.firebase.doc('posters/' + form.value.id).update(dataa);
       }
 
     }
@@ -129,7 +119,7 @@ export class TimetableComponent implements OnInit {
 
   }
 
-  uploadImage(event) {
+  uploadPoster(event) {
     this.selectedFile = event.target.files[0];
     // console.log("sfwg");
     this.formevent1 = event;

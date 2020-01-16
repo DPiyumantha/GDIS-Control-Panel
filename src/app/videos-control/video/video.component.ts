@@ -23,7 +23,7 @@ export class VideoComponent implements OnInit {
   percentage :number =0;
   uploading:boolean=false;
 //virtual tour
-constructor(private storage: AngularFireStorage, private firebase: AngularFirestore, private service: VideoService) { }
+constructor(private storage: AngularFireStorage, private firebase: AngularFirestore,  public service: VideoService) { }
 
 ngOnInit() {
   this.resetForm();
